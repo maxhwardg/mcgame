@@ -1,9 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include "gamestate/include/gamestate.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
+
+    funct();
 
     sf::View view;
     view.reset(sf::FloatRect(100, 100, 400, 200));
@@ -12,8 +15,7 @@ int main() {
 
     while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
