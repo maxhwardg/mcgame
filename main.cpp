@@ -1,29 +1,45 @@
-#include <SFML/Graphics.hpp>
-#include "gamestate/include/gamestate.h"
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<int> apply(vector<int> perm) {
+    stack<int> s;
+    while (perm.size()) {
+        for (int i=0;i<perm.size();i+=2) {
+            s.push(perm[i]);
+        }
+        vector<int> next;
+        for (int i=1;i<perm.size();i+=2) {
+            next.push_back(perm[i]);
+        }
+        perm=next;
+    }
+    vector<int> ans;
+    while (!s.empty()) {
+        ans.push_back(s.top());
+        s.pop();
+    }
+    return ans;
+}
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    funct();
-
-    sf::View view;
-    view.reset(sf::FloatRect(100, 100, 400, 200));
-    view.rotate(45);
-    window.setView(view);
-
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
+    int N;
+    cin>>N;
+    vector<int> perm(N);
+    for (int i=0;i<N;++i) perm[i]=i;
+    for (int i=1;i<1000;++i) {
+        perm = apply(perm);
+        for (int p : perm) {
+            cout <<p<< " ";
         }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
+        cout << endl;
+        bool g=1;
+        for (int j=0;j<N;++j) if (perm[j]!=j) {
+            g=0;break;
+        }
+        if (g) {
+            std::cout << i << std::endl;
+            return 0;
+        }
     }
-
-    return 0;
 }
