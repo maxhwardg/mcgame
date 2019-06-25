@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./include)
 
-set(HDR_FILES include/universe.h include/gamestate.h)
+set(HDR_FILES include/gamestate.h)
 set(SRC_FILES src/gamestate.cpp)
 
 add_library(gamestate STATIC ${HDR_FILES} ${SRC_FILES})
