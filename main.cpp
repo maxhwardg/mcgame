@@ -64,14 +64,14 @@ public:
     void DrawToWindow(sf::RenderWindow &window) const {
         sf::Sprite sprite;
         auto view = window.getView();
-        int padded_window_x = static_cast<int>(std::round(view.getCenter().x - view.getSize().x / 2));
-        int padded_window_y = static_cast<int>(std::round(view.getCenter().y - view.getSize().y / 2));
-        int size_pixels_x = static_cast<int>(std::round(view.getSize().x));
-        int size_pixels_y = static_cast<int>(std::round(view.getSize().y));
-        for (int row = std::max(0, padded_window_x / tile_size);
-             row < rows && row <= (padded_window_x + size_pixels_x) / tile_size; ++row) {
-            for (int col = std::max(0, padded_window_y / tile_size);
-                 col < cols && col <= (padded_window_y + size_pixels_y) / tile_size; ++col) {
+        int window_x = static_cast<int>(std::floor(view.getCenter().x - view.getSize().x / 2));
+        int window_y = static_cast<int>(std::floor(view.getCenter().y - view.getSize().y / 2));
+        int size_pixels_x = static_cast<int>(std::ceil(view.getSize().x));
+        int size_pixels_y = static_cast<int>(std::ceil(view.getSize().y));
+        for (int row = std::max(0, window_x / tile_size);
+             row < rows && row <= (window_x + size_pixels_x) / tile_size; ++row) {
+            for (int col = std::max(0, window_y / tile_size);
+                 col < cols && col <= (window_y + size_pixels_y) / tile_size; ++col) {
                 sprite.setTexture(textures[tile_ids[row][col]]);
                 sprite.setPosition(row * tile_size, col * tile_size);
                 window.draw(sprite);
