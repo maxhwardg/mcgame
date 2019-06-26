@@ -22,14 +22,21 @@ private:
     std::vector<std::vector<int>> tile_ids;
     const static int rendering_padding = 5;
 public:
-    TileSetManager(const std::vector<std::string> &texture_paths, int rows_, int cols_, int tile_size_,
+    TileSetManager(const std::vector<std::string> &texture_paths, int rows_, int cols_,
                    int default_texture_id = 0)
-            : rows(rows_), cols(cols_), tile_size(tile_size_) {
+            : rows(rows_), cols(cols_) {
+        assert(!texture_paths.empty());
+
         textures.resize(texture_paths.size());
         for (size_t ti = 0; ti < textures.size(); ++ti) {
             if (!textures[ti].loadFromFile(texture_paths[ti])) {
                 throw FailedToLoadTextureException(texture_paths[ti]);
             }
+            if (ti == 0) {
+                tile_size = textures[0].getSize().x;
+            }
+            assert(static_cast<int>(textures[ti].getSize().x) == tile_size);
+            assert(static_cast<int>(textures[ti].getSize().y) == tile_size);
         }
         tile_ids.resize(rows, std::vector<int>(cols, default_texture_id));
     }
@@ -73,9 +80,6 @@ public:
              row < rows && row <= (window_x + size_pixels_x) / tile_size; ++row) {
             for (int col = std::max(0, window_y / tile_size);
                  col < cols && col <= (window_y + size_pixels_y) / tile_size; ++col) {
-                const sf::Texture &texture = textures[tile_ids[row][col]];
-                sprite.setScale(static_cast<float>(tile_size) / texture.getSize().x,
-                                static_cast<float>(tile_size) / texture.getSize().y);
                 sprite.setTexture(textures[tile_ids[row][col]]);
                 sprite.setPosition(row * tile_size, col * tile_size);
                 window.draw(sprite);
@@ -88,7 +92,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
     window.setFramerateLimit(30);
 
-    TileSetManager tile_set_manager({"resources/grass_tile.png"}, 20, 20, 32);
+    TileSetManager tile_set_manager({"resources/grass_tile.png"}, 20, 20);
     float ox = 0, oy = 0;
 
     sf::Text text;
