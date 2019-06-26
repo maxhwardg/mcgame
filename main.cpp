@@ -3,12 +3,30 @@
 #include <SFML/Window.hpp>
 #include "tile_set_manager.h"
 
+#include <vector>
+#include <cassert>
+#include <exception>
+#include <cmath>
+#include <random>
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
     window.setFramerateLimit(30);
 
-    mcgame::TileSetManager tile_set_manager({"resources/grass_tile.png"}, 20, 20);
+    mcgame::TileSetManager tile_set_manager({
+        "resources/pixel_grass_tile7.png",
+        "resources/pixel_grass_tile6.png",
+        "resources/pixel_grass_tile5.png",
+        "resources/pixel_grass_tile4.png",
+        "resources/pixel_grass_tile3.png",
+        "resources/pixel_grass_tile2.png",
+        "resources/pixel_grass_tile.png"}, 100, 100, 64);
+    std::default_random_engine random_engine;
+    for (int i = 0; i < tile_set_manager.Rows(); ++i) {
+        for (int j = 0; j < tile_set_manager.Cols(); ++j) {
+            tile_set_manager.SetTileId(i, j, random_engine()% tile_set_manager.NumTextures());
+        }
+    }
     float ox = 0, oy = 0;
 
     sf::Text text;
