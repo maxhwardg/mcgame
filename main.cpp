@@ -15,8 +15,9 @@ int main() {
     window.setFramerateLimit(30);
 
     std::vector<std::string> tile_set_files = {
-//           "resources/pixel_grass_tile10.png",
-//           "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile10.png",
             "resources/pixel_grass_tile9.png",
             "resources/pixel_grass_tile8.png",
             "resources/pixel_grass_tile7.png",
