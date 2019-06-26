@@ -8,7 +8,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
     // Load a sprite to display
     sf::Texture texture;
-    if (!texture.loadFromFile("../resources/spacemax.png"))
+    if (!texture.loadFromFile("resources/spacemax.png"))
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
     sprite.setScale(0.2, 0.2);
