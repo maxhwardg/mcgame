@@ -63,6 +63,7 @@ public:
 
     void DrawToWindow(sf::RenderWindow &window) const {
         sf::Sprite sprite;
+
         auto view = window.getView();
         int window_x = static_cast<int>(std::floor(view.getCenter().x - view.getSize().x / 2));
         int window_y = static_cast<int>(std::floor(view.getCenter().y - view.getSize().y / 2));
@@ -72,6 +73,9 @@ public:
              row < rows && row <= (window_x + size_pixels_x) / tile_size; ++row) {
             for (int col = std::max(0, window_y / tile_size);
                  col < cols && col <= (window_y + size_pixels_y) / tile_size; ++col) {
+                const sf::Texture &texture = textures[tile_ids[row][col]];
+                sprite.setScale(static_cast<float>(tile_size) / texture.getSize().x,
+                                static_cast<float>(tile_size) / texture.getSize().y);
                 sprite.setTexture(textures[tile_ids[row][col]]);
                 sprite.setPosition(row * tile_size, col * tile_size);
                 window.draw(sprite);
@@ -82,9 +86,9 @@ public:
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(30);
 
-    TileSetManager tile_set_manager({"resources/grass_tile.png"}, 100, 100, 64);
+    TileSetManager tile_set_manager({"resources/grass_tile.png"}, 20, 20, 32);
     float ox = 0, oy = 0;
 
     sf::Text text;
@@ -124,6 +128,8 @@ int main() {
 
         text.setString(std::to_string(view2.getCenter().x - view2.getSize().x / 2) + " " +
                        std::to_string(view2.getCenter().y - view2.getSize().y / 2));
+
+        window.setView(window.getDefaultView());
         text.setPosition(10, 10);
         window.draw(text);
         window.display();
