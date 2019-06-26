@@ -61,7 +61,7 @@ public:
         tile_ids[row][col] = texture_idx;
     }
 
-    int GetTileId(int row, int col) const {
+    int TileId(int row, int col) const {
         assert(row >= 0 && row < rows);
         assert(col >= 0 && col < cols);
 
