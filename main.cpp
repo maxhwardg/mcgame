@@ -56,6 +56,8 @@ int main() {
     int frame = 0;
     int entity_frame = 0;
     int num_anim_frames = entity.NumFrames()/2;
+    sf::Keyboard::Key last_left_right_key = sf::Keyboard::Left;
+    sf::Keyboard::Key current_left_right_key = sf::Keyboard::Left;
 
     while (window.isOpen()) {
         // Process events
@@ -66,43 +68,40 @@ int main() {
                 window.close();
 
         }
+        bool button_pressed = false;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            button_pressed = true;
             ey -= 1;
             ++frame;
-
-            if (!(frame % 10)) {
-                entity.SetFrame(entity_frame % num_anim_frames);
-                entity_frame++;
-            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            button_pressed = true;
             ey += 1;
             ++frame;
-
-            if (!(frame % 10)) {
-                entity.SetFrame(entity_frame % num_anim_frames);
-                entity_frame++;
-            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            button_pressed = true;
             ex -= 1;
             ++frame;
-
-            if (!(frame % 10)) {
-                entity.SetFrame(entity_frame % num_anim_frames);
-                entity_frame++;
-            }
+            current_left_right_key = sf::Keyboard::Left;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            button_pressed = true;
             ex += 1;
             ++frame;
-
-            if (!(frame % 10)) {
-                entity.SetFrame(2 + (entity_frame % num_anim_frames));
-                entity_frame++;
-            }
+            current_left_right_key = sf::Keyboard::Right;
         }
+
+        if (button_pressed && ((frame % 10) == 0 || last_left_right_key != current_left_right_key)) {
+            int left_right_offset = 0;
+            if (current_left_right_key == sf::Keyboard::Right) {
+                left_right_offset = num_anim_frames;
+            }
+            entity.SetFrame(left_right_offset + (entity_frame % num_anim_frames));
+            ++entity_frame;
+        }
+        last_left_right_key = current_left_right_key;
 
         window.clear();
         sf::View view = window.getDefaultView();
