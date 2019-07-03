@@ -43,6 +43,10 @@ namespace mcgame {
         void DrawToWindow(sf::RenderWindow &window) const {
             window.draw(sprite);
         }
+
+        sf::Vector2u GetSize() const {
+            return sprite.getTexture()->getSize();
+        }
     };
 }
 

@@ -39,7 +39,6 @@ int main() {
         }
     }
     float ox = 0, oy = 0;
-    int ex = 0, ey = 0;
 
     sf::Text text;
     sf::Font font;
@@ -56,6 +55,8 @@ int main() {
     int frame = 0;
     int entity_frame = 0;
     int num_anim_frames = entity.NumFrames()/2;
+    int ex = window.getSize().x/2 - entity.GetSize().x/2, ey = window.getSize().y/2 - entity.GetSize().y/2;
+
     sf::Keyboard::Key last_left_right_key = sf::Keyboard::Left;
     sf::Keyboard::Key current_left_right_key = sf::Keyboard::Left;
 
@@ -72,23 +73,23 @@ int main() {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             button_pressed = true;
-            ey -= 1;
+            oy -= 1;
             ++frame;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             button_pressed = true;
-            ey += 1;
+            oy += 1;
             ++frame;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             button_pressed = true;
-            ex -= 1;
+            ox -= 1;
             ++frame;
             current_left_right_key = sf::Keyboard::Left;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             button_pressed = true;
-            ex += 1;
+            ox += 1;
             ++frame;
             current_left_right_key = sf::Keyboard::Right;
         }
