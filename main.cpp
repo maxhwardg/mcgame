@@ -47,11 +47,15 @@ int main() {
 
     text.setFont(font);
 
-    sf::Texture anim1, anim2;
+    sf::Texture anim1, anim2, anim3, anim4;
     anim1.loadFromFile("resources/floating_sprite.png");
     anim2.loadFromFile("resources/floating_sprite_rise.png");
-    mcgame::AnimatedEntity entity({anim1, anim2});
+    anim3.loadFromFile("resources/floating_sprite_right.png");
+    anim4.loadFromFile("resources/floating_sprite_rise_right.png");
+    mcgame::AnimatedEntity entity({anim1, anim2, anim3, anim4});
     int frame = 0;
+    int entity_frame = 0;
+    int num_anim_frames = entity.NumFrames()/2;
 
     while (window.isOpen()) {
         // Process events
@@ -64,24 +68,40 @@ int main() {
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            ey -= tile_set_manager.TileSize();
+            ey -= 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+
+            if (!(frame % 10)) {
+                entity.SetFrame(entity_frame % num_anim_frames);
+                entity_frame++;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            ey += tile_set_manager.TileSize();
+            ey += 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+
+            if (!(frame % 10)) {
+                entity.SetFrame(entity_frame % num_anim_frames);
+                entity_frame++;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            ex -= tile_set_manager.TileSize();
+            ex -= 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+
+            if (!(frame % 10)) {
+                entity.SetFrame(entity_frame % num_anim_frames);
+                entity_frame++;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            ex += tile_set_manager.TileSize();
+            ex += 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+
+            if (!(frame % 10)) {
+                entity.SetFrame(2 + (entity_frame % num_anim_frames));
+                entity_frame++;
+            }
         }
 
         window.clear();
