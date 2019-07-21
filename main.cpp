@@ -15,21 +15,21 @@ int main() {
     window.setFramerateLimit(30);
 
     std::vector<std::string> tile_set_files = {
-            "resources/pixel_grass_tile10.png",
-            "resources/pixel_grass_tile10.png",
-            "resources/pixel_grass_tile10.png",
-            "resources/pixel_grass_tile9.png",
-            "resources/pixel_grass_tile8.png",
-            "resources/pixel_grass_tile7.png",
-            "resources/pixel_grass_tile6.png",
-            "resources/pixel_grass_tile5.png",
-            "resources/pixel_grass_tile4.png",
-            "resources/pixel_grass_tile3.png",
-            "resources/pixel_grass_tile3.png",
-            "resources/pixel_grass_tile3.png",
-            "resources/pixel_grass_tile2.png",
-            "resources/pixel_grass_tile.png",
-            "resources/pixel_grass_tile.png"
+            "resources/images/pixel_grass_tile10.png",
+            "resources/images/pixel_grass_tile10.png",
+            "resources/images/pixel_grass_tile10.png",
+            "resources/images/pixel_grass_tile9.png",
+            "resources/images/pixel_grass_tile8.png",
+            "resources/images/pixel_grass_tile7.png",
+            "resources/images/pixel_grass_tile6.png",
+            "resources/images/pixel_grass_tile5.png",
+            "resources/images/pixel_grass_tile4.png",
+            "resources/images/pixel_grass_tile3.png",
+            "resources/images/pixel_grass_tile3.png",
+            "resources/images/pixel_grass_tile3.png",
+            "resources/images/pixel_grass_tile2.png",
+            "resources/images/pixel_grass_tile.png",
+            "resources/images/pixel_grass_tile.png"
     };
     mcgame::TileSetManager tile_set_manager(tile_set_files, 100, 100, 64);
     std::default_random_engine random_engine;
@@ -42,15 +42,15 @@ int main() {
 
     sf::Text text;
     sf::Font font;
-    font.loadFromFile("resources/arial.ttf");
+    font.loadFromFile("resources/fonts/arial.ttf");
 
     text.setFont(font);
 
     sf::Texture anim1, anim2, anim3, anim4;
-    anim1.loadFromFile("resources/floating_sprite.png");
-    anim2.loadFromFile("resources/floating_sprite_rise.png");
-    anim3.loadFromFile("resources/floating_sprite_right.png");
-    anim4.loadFromFile("resources/floating_sprite_rise_right.png");
+    anim1.loadFromFile("resources/images/floating_sprite.png");
+    anim2.loadFromFile("resources/images/floating_sprite_rise.png");
+    anim3.loadFromFile("resources/images/floating_sprite_right.png");
+    anim4.loadFromFile("resources/images/floating_sprite_rise_right.png");
     mcgame::AnimatedEntity entity({anim1, anim2, anim3, anim4});
     int frame = 0;
     int entity_frame = 0;
