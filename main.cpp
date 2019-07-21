@@ -40,6 +40,21 @@ int main() {
     }
     float ox = 0, oy = 0;
 
+    std::vector<std::string> gem_tile_set_files = {
+            "resources/images/blank_tile.png",
+            "resources/images/gem_green_tile.png",
+            "resources/images/gem_red_tile.png",
+            "resources/images/gem_blue_tile.png",
+            "resources/images/gem_teal_tile.png"
+    };
+    int sparsity_factor = 50;
+    mcgame::TileSetManager gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
+    for (int i = 0; i < gem_tile_set_manager.Rows(); i++) {
+        for (int j = 0; j < gem_tile_set_manager.Cols(); j+=random_engine() % sparsity_factor) {
+            gem_tile_set_manager.SetTileId(i, j, random_engine() % gem_tile_set_manager.NumTextures());
+        }
+    }
+
     sf::Text text;
     sf::Font font;
     font.loadFromFile("resources/fonts/arial.ttf");
@@ -73,23 +88,23 @@ int main() {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             button_pressed = true;
-            oy -= 1;
+            oy -= 2;
             ++frame;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             button_pressed = true;
-            oy += 1;
+            oy += 2;
             ++frame;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             button_pressed = true;
-            ox -= 1;
+            ox -= 2;
             ++frame;
             current_left_right_key = sf::Keyboard::Left;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             button_pressed = true;
-            ox += 1;
+            ox += 2;
             ++frame;
             current_left_right_key = sf::Keyboard::Right;
         }
@@ -109,6 +124,7 @@ int main() {
         view.move(ox, oy);
         window.setView(view);
         tile_set_manager.DrawToWindow(window);
+        gem_tile_set_manager.DrawToWindow(window);
 
         auto view2 = window.getView();
 
