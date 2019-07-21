@@ -11,17 +11,27 @@
 #include <random>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(1600, 800), "SFML window");
     window.setFramerateLimit(30);
 
-    mcgame::TileSetManager tile_set_manager({
-                                                    "resources/images/pixel_grass_tile7.png",
-                                                    "resources/images/pixel_grass_tile6.png",
-                                                    "resources/images/pixel_grass_tile5.png",
-                                                    "resources/images/pixel_grass_tile4.png",
-                                                    "resources/images/pixel_grass_tile3.png",
-                                                    "resources/images/pixel_grass_tile2.png",
-                                                    "resources/images/pixel_grass_tile.png"}, 100, 100, 64);
+    std::vector<std::string> tile_set_files = {
+            "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile10.png",
+            "resources/pixel_grass_tile9.png",
+            "resources/pixel_grass_tile8.png",
+            "resources/pixel_grass_tile7.png",
+            "resources/pixel_grass_tile6.png",
+            "resources/pixel_grass_tile5.png",
+            "resources/pixel_grass_tile4.png",
+            "resources/pixel_grass_tile3.png",
+            "resources/pixel_grass_tile3.png",
+            "resources/pixel_grass_tile3.png",
+            "resources/pixel_grass_tile2.png",
+            "resources/pixel_grass_tile.png",
+            "resources/pixel_grass_tile.png"
+    };
+    mcgame::TileSetManager tile_set_manager(tile_set_files, 100, 100, 64);
     std::default_random_engine random_engine;
     for (int i = 0; i < tile_set_manager.Rows(); ++i) {
         for (int j = 0; j < tile_set_manager.Cols(); ++j) {
@@ -29,19 +39,26 @@ int main() {
         }
     }
     float ox = 0, oy = 0;
-    int ex = 0, ey = 0;
 
     sf::Text text;
     sf::Font font;
-    font.loadFromFile("resources/fonts/arial.ttf");
+    font.loadFromFile("resources/arial.ttf");
 
     text.setFont(font);
 
-    sf::Texture anim1, anim2;
-    anim1.loadFromFile("resources/images/floating_sprite.png");
-    anim2.loadFromFile("resources/images/floating_sprite_rise.png");
-    mcgame::AnimatedEntity entity({anim1, anim2});
+    sf::Texture anim1, anim2, anim3, anim4;
+    anim1.loadFromFile("resources/floating_sprite.png");
+    anim2.loadFromFile("resources/floating_sprite_rise.png");
+    anim3.loadFromFile("resources/floating_sprite_right.png");
+    anim4.loadFromFile("resources/floating_sprite_rise_right.png");
+    mcgame::AnimatedEntity entity({anim1, anim2, anim3, anim4});
     int frame = 0;
+    int entity_frame = 0;
+    int num_anim_frames = entity.NumFrames()/2;
+    int ex = window.getSize().x/2 - entity.GetSize().x/2, ey = window.getSize().y/2 - entity.GetSize().y/2;
+
+    sf::Keyboard::Key last_left_right_key = sf::Keyboard::Left;
+    sf::Keyboard::Key current_left_right_key = sf::Keyboard::Left;
 
     while (window.isOpen()) {
         // Process events
@@ -52,27 +69,40 @@ int main() {
                 window.close();
 
         }
+        bool button_pressed = false;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            ey -= tile_set_manager.TileSize();
+            button_pressed = true;
+            oy -= 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            ey += tile_set_manager.TileSize();
+            button_pressed = true;
+            oy += 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            ex -= tile_set_manager.TileSize();
+            button_pressed = true;
+            ox -= 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+            current_left_right_key = sf::Keyboard::Left;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            ex += tile_set_manager.TileSize();
+            button_pressed = true;
+            ox += 1;
             ++frame;
-            entity.SetFrame(frame % entity.NumFrames());
+            current_left_right_key = sf::Keyboard::Right;
         }
+
+        if (button_pressed && ((frame % 10) == 0 || last_left_right_key != current_left_right_key)) {
+            int left_right_offset = 0;
+            if (current_left_right_key == sf::Keyboard::Right) {
+                left_right_offset = num_anim_frames;
+            }
+            entity.SetFrame(left_right_offset + (entity_frame % num_anim_frames));
+            ++entity_frame;
+        }
+        last_left_right_key = current_left_right_key;
 
         window.clear();
         sf::View view = window.getDefaultView();
