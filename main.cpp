@@ -11,17 +11,17 @@
 #include <random>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML window");
     window.setFramerateLimit(30);
 
     mcgame::TileSetManager tile_set_manager({
-                                                    "resources/pixel_grass_tile7.png",
-                                                    "resources/pixel_grass_tile6.png",
-                                                    "resources/pixel_grass_tile5.png",
-                                                    "resources/pixel_grass_tile4.png",
-                                                    "resources/pixel_grass_tile3.png",
-                                                    "resources/pixel_grass_tile2.png",
-                                                    "resources/pixel_grass_tile.png"}, 100, 100, 64);
+                                                    "resources/images/pixel_grass_tile7.png",
+                                                    "resources/images/pixel_grass_tile6.png",
+                                                    "resources/images/pixel_grass_tile5.png",
+                                                    "resources/images/pixel_grass_tile4.png",
+                                                    "resources/images/pixel_grass_tile3.png",
+                                                    "resources/images/pixel_grass_tile2.png",
+                                                    "resources/images/pixel_grass_tile.png"}, 100, 100, 64);
     std::default_random_engine random_engine;
     for (int i = 0; i < tile_set_manager.Rows(); ++i) {
         for (int j = 0; j < tile_set_manager.Cols(); ++j) {
@@ -33,13 +33,13 @@ int main() {
 
     sf::Text text;
     sf::Font font;
-    font.loadFromFile("resources/arial.ttf");
+    font.loadFromFile("resources/fonts/arial.ttf");
 
     text.setFont(font);
 
     sf::Texture anim1, anim2;
-    anim1.loadFromFile("resources/floating_sprite.png");
-    anim2.loadFromFile("resources/floating_sprite_rise.png");
+    anim1.loadFromFile("resources/images/floating_sprite.png");
+    anim2.loadFromFile("resources/images/floating_sprite_rise.png");
     mcgame::AnimatedEntity entity({anim1, anim2});
     int frame = 0;
 
