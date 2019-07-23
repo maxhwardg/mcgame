@@ -7,6 +7,8 @@
 #include <cassert>
 #include <cmath>
 
+#include <iostream>
+
 namespace mcgame {
     TileSetManager::TileSetManager(const std::vector<std::string> &texture_paths, int rows_, int cols_,
                                    int tile_size_, int default_texture_id)
@@ -24,7 +26,7 @@ namespace mcgame {
             assert(static_cast<int>(textures[ti].getSize().x) == tile_size);
             assert(static_cast<int>(textures[ti].getSize().y) == tile_size);
         }
-        tile_ids.resize(rows, std::vector<int>(cols, default_texture_id));
+        tile_ids.assign(rows, std::vector<int>(cols, default_texture_id));
     }
 
     int TileSetManager::Rows() const {
@@ -66,12 +68,12 @@ namespace mcgame {
         int window_y = static_cast<int>(std::floor(view.getCenter().y - view.getSize().y / 2));
         int size_pixels_x = static_cast<int>(std::ceil(view.getSize().x));
         int size_pixels_y = static_cast<int>(std::ceil(view.getSize().y));
-        for (int row = std::max(0, window_x / tile_size);
-             row < rows && row <= (window_x + size_pixels_x) / tile_size; ++row) {
-            for (int col = std::max(0, window_y / tile_size);
-                 col < cols && col <= (window_y + size_pixels_y) / tile_size; ++col) {
+        for (int row = std::max(0, window_y / tile_size);
+             row < rows && row <= (window_y + size_pixels_y) / tile_size; ++row) {
+            for (int col = std::max(0, window_x / tile_size);
+                 col < cols && col <= (window_x + size_pixels_x) / tile_size; ++col) {
                 sprite.setTexture(textures[tile_ids[row][col]]);
-                sprite.setPosition(row * tile_size, col * tile_size);
+                sprite.setPosition(col * tile_size, row * tile_size);
                 window.draw(sprite);
             }
         }

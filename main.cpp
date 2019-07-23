@@ -9,6 +9,7 @@
 #include <exception>
 #include <cmath>
 #include <random>
+#include <iostream>
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1600, 800), "SFML window");
@@ -48,9 +49,11 @@ int main() {
             "resources/images/gem_teal_tile.png"
     };
     int sparsity_factor = 50;
+
+    std::cout << "REEEEEEEE" << std::endl;
     mcgame::TileSetManager gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
     for (int i = 0; i < gem_tile_set_manager.Rows(); i++) {
-        for (int j = 0; j < gem_tile_set_manager.Cols(); j+=random_engine() % sparsity_factor) {
+        for (int j = random_engine() % sparsity_factor; j < gem_tile_set_manager.Cols(); j+=random_engine() % sparsity_factor) {
             gem_tile_set_manager.SetTileId(i, j, random_engine() % gem_tile_set_manager.NumTextures());
         }
     }
