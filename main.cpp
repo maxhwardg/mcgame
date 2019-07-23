@@ -41,6 +41,22 @@ int main() {
     }
     float ox = 0, oy = 0;
 
+    std::vector<std::string> tree_tile_set_files = {
+            "resources/images/blank_tile.png",
+            "resources/images/tree.png",
+    };
+
+
+    sf::Texture tree_tex;
+    tree_tex.loadFromFile("resources/images/tree.png");
+    std::vector<sf::Sprite> trees;
+    for (int i = 0; i < 100; ++i) {
+        sf::Sprite sprite;
+        sprite.setTexture(tree_tex);
+        sprite.setPosition((random_engine()%100)*64, (random_engine()%100)*64);
+        trees.push_back(sprite);
+    }
+
     std::vector<std::string> gem_tile_set_files = {
             "resources/images/blank_tile.png",
             "resources/images/gem_green_tile.png",
@@ -129,6 +145,13 @@ int main() {
         tile_set_manager.DrawToWindow(window);
         gem_tile_set_manager.DrawToWindow(window);
 
+
+
+        for (auto tree : trees) {
+            if (tree.getPosition().y <= oy+ey) {
+                window.draw(tree);
+            }
+        }
         auto view2 = window.getView();
 
         text.setString(std::to_string(view2.getCenter().x - view2.getSize().x / 2) + " " +
@@ -138,8 +161,17 @@ int main() {
         text.setPosition(10, 10);
         window.draw(text);
 
+
         entity.DrawToWindow(window);
+
+        window.setView(view);
+        for (auto tree : trees) {
+            if (tree.getPosition().y > oy+ey) {
+                window.draw(tree);
+            }
+        }
         entity.SetPosition(ex, ey);
+
         window.display();
     }
     return EXIT_SUCCESS;
