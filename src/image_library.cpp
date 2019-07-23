@@ -35,6 +35,14 @@ namespace mcgame {
         return sprite;
     }
 
+    const sf::Texture& ImageLibrary::GetTexture(ImageName image) {
+        int idx = static_cast<int>(image);
+        if (!is_loaded[idx]) {
+            ForceLoad(image);
+        }
+        return textures[idx];
+    }
+
     void ImageLibrary::ClearImage(ImageName image) {
         int idx = static_cast<int>(image);
         textures[idx] = sf::Texture();

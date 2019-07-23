@@ -26,7 +26,6 @@ namespace mcgame {
         int tile_size;
         std::vector<sf::Texture> textures;
         std::vector<std::vector<int>> tile_ids;
-        const static int rendering_padding = 5;
     public:
         TileSetManager(const std::vector<std::string> &texture_paths, int rows_, int cols_,
                        int tile_size_ = -1, int default_texture_id = 0);
