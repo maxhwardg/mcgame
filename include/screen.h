@@ -13,9 +13,12 @@
 
 namespace mcgame {
 
-    /// Transformations to apply to an image before rendering
+    /// Data type to represent pixel coordinates.
+    typedef int coord_t;
+
+    /// Transformations to apply to an image before rendering.
     struct ImageTransformations {
-        int64_t x, y;
+        coord_t x, y;
     };
 
     /// An abtract representation of the screen. Manages all rendering.
@@ -23,7 +26,7 @@ namespace mcgame {
     private:
         /// Screen keeps its own top left coorindate since GPU coordinates are floats, which may not be sufficient for
         /// intermediate representations.
-        int64_t top_left_x, top_left_y;
+        coord_t top_left_x, top_left_y;
         sf::RenderWindow render_window;
         sf::Sprite sprite;
         ImageLibrary library;

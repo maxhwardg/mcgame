@@ -26,7 +26,7 @@ namespace mcgame {
             assert(static_cast<int>(textures[ti].getSize().x) == tile_size);
             assert(static_cast<int>(textures[ti].getSize().y) == tile_size);
         }
-        tile_ids.assign(rows, std::vector<int>(cols, default_texture_id));
+        dense_tile_ids.assign(rows, std::vector<int>(cols, default_texture_id));
     }
 
     int TileSetManager::Rows() const {
@@ -41,19 +41,39 @@ namespace mcgame {
         return tile_size;
     }
 
-    void TileSetManager::SetTileId(int row, int col, int texture_idx) {
+    void TileSetManager::SetSparseTileId(int layer, int row, int col, int texture_idx) {
         assert(row >= 0 && row < rows);
         assert(col >= 0 && col < cols);
         assert(texture_idx >= 0 && texture_idx < static_cast<int>(textures.size()));
 
-        tile_ids[row][col] = texture_idx;
+        sparse_layers[layer][row][col] = texture_idx;
     }
 
-    int TileSetManager::TileId(int row, int col) const {
+    void TileSetManager::SetDenseTileId(int row, int col, int texture_idx) {
+        assert(row >= 0 && row < rows);
+        assert(col >= 0 && col < cols);
+        assert(texture_idx >= 0 && texture_idx < static_cast<int>(textures.size()));
+
+        dense_tile_ids[row][col];
+    }
+
+
+    int TileSetManager::DenseTileId(int row, int col) const {
         assert(row >= 0 && row < rows);
         assert(col >= 0 && col < cols);
 
-        return tile_ids[row][col];
+        return dense_tile_ids[row][col];
+    }
+
+    std::optional<int> TileSetManager::SparseTileId(int layer, int row, int col) {
+        assert(row >= 0 && row < rows);
+        assert(col >= 0 && col < cols);
+
+        if (sparse_layers.count(layer) && sparse_layers[layer].count(row) && sparse_layers[layer][row].count(col)) {
+            return sparse_layers[layer][row][col];
+        }
+
+        return {};
     }
 
     int TileSetManager::NumTextures() const {
@@ -72,11 +92,13 @@ namespace mcgame {
              row < rows && row <= (window_y + size_pixels_y) / tile_size; ++row) {
             for (int col = std::max(0, window_x / tile_size);
                  col < cols && col <= (window_x + size_pixels_x) / tile_size; ++col) {
-                sprite.setTexture(textures[tile_ids[row][col]]);
+                sprite.setTexture(textures[dense_tile_ids[row][col]]);
                 sprite.setPosition(col * tile_size, row * tile_size);
                 window.draw(sprite);
             }
         }
+
+        // TODO: Render the sparse layers
     }
 }
 
