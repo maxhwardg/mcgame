@@ -54,7 +54,7 @@ namespace mcgame {
         assert(col >= 0 && col < cols);
         assert(texture_idx >= 0 && texture_idx < static_cast<int>(textures.size()));
 
-        dense_tile_ids[row][col];
+        dense_tile_ids[row][col] = texture_idx;
     }
 
 
