@@ -13,9 +13,8 @@
 
 namespace mcgame {
 
-    /// A Sprite that can be drawn to a Screen.
-    struct ScreenSprite {
-        ImageName image;
+    /// Transformations to apply to an image before rendering
+    struct ImageTransformations {
         int64_t x, y;
     };
 
@@ -30,7 +29,7 @@ namespace mcgame {
         ImageLibrary library;
     public:
         Screen();
-        void Draw(const ScreenSprite &screen_sprite);
+        void Draw(ImageName image, const ImageTransformations &transformations);
     };
 }
 

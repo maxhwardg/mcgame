@@ -6,11 +6,11 @@
 
 namespace mcgame {
 
-    Screen::Screen() : render_window(sf::VideoMode(1600, 900), "SFML window") {}
+    Screen::Screen() : top_left_x(0), top_left_y(0), render_window(sf::VideoMode(1600, 900), "SFML window") {}
 
-    void Screen::Draw(const ScreenSprite &screen_sprite) {
-        sprite.setTexture(library.GetTexture(screen_sprite.image));
-        sprite.setPosition(screen_sprite.x - top_left_x, screen_sprite.y - top_left_y);
+    void Screen::Draw(ImageName image, const ImageTransformations &transformations) {
+        sprite.setTexture(library.GetTexture(image));
+        sprite.setPosition(transformations.x - top_left_x, transformations.y - top_left_y);
         render_window.draw(sprite);
     }
 
