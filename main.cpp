@@ -1,7 +1,8 @@
 //#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "tiles.h"
+#include "tile_set_manager.h"
+#include "animated_entity.h"
 
 #include <vector>
 #include <cassert>
@@ -31,11 +32,11 @@ int main() {
             "resources/images/pixel_grass_tile.png",
             "resources/images/pixel_grass_tile.png"
     };
-    mcgame::TileGridDrawer tile_set_manager(tile_set_files, 100, 100, 64);
+    mcgame::TileSetManager tile_set_manager(tile_set_files, 100, 100, 64);
     std::default_random_engine random_engine;
     for (int i = 0; i < tile_set_manager.Rows(); ++i) {
         for (int j = 0; j < tile_set_manager.Cols(); ++j) {
-            tile_set_manager.SetTileId(i, j, random_engine() % tile_set_manager.NumTextures());
+            tile_set_manager.SetDenseTileId(i, j, random_engine() % tile_set_manager.NumTextures());
         }
     }
     float ox = 0, oy = 0;
@@ -65,11 +66,10 @@ int main() {
     };
     int sparsity_factor = 50;
 
-    std::cout << "REEEEEEEE" << std::endl;
-    mcgame::TileGridDrawer gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
+    mcgame::TileSetManager gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
     for (int i = 0; i < gem_tile_set_manager.Rows(); i++) {
         for (int j = random_engine() % sparsity_factor; j < gem_tile_set_manager.Cols(); j+=random_engine() % sparsity_factor) {
-            gem_tile_set_manager.SetTileId(i, j, random_engine() % gem_tile_set_manager.NumTextures());
+            gem_tile_set_manager.SetDenseTileId(i, j, random_engine() % gem_tile_set_manager.NumTextures());
         }
     }
 
@@ -89,6 +89,7 @@ int main() {
     int entity_frame = 0;
     int num_anim_frames = entity.NumFrames()/2;
     int ex = window.getSize().x/2 - entity.GetSize().x/2, ey = window.getSize().y/2 - entity.GetSize().y/2;
+    int gem_count = 0;
 
     sf::Keyboard::Key last_left_right_key = sf::Keyboard::Left;
     sf::Keyboard::Key current_left_right_key = sf::Keyboard::Left;
@@ -160,6 +161,10 @@ int main() {
         text.setPosition(10, 10);
         window.draw(text);
 
+        text.setString("Gem count: " + std::to_string(gem_count));
+        window.setView(window.getDefaultView());
+        text.setPosition(10, 60);
+        window.draw(text);
 
         entity.DrawToWindow(window);
 
