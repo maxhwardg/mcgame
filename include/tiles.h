@@ -2,8 +2,8 @@
 // Created by maxward on 6/26/19.
 //
 
-#ifndef MCGAME_TILESETMANAGER_H
-#define MCGAME_TILESETMANAGER_H
+#ifndef MCGAME_TILES_H
+#define MCGAME_TILES_H
 
 #include <exception>
 #include <string>
@@ -39,4 +39,4 @@ namespace mcgame {
     };
 }
 
-#endif //MCGAME_TILESETMANAGER_H
+#endif //MCGAME_TILES_H
