@@ -1,8 +1,7 @@
 //#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "tile_set_manager.h"
-#include "animated_entity.h"
+#include "tiles.h"
 
 #include <vector>
 #include <cassert>
@@ -32,7 +31,7 @@ int main() {
             "resources/images/pixel_grass_tile.png",
             "resources/images/pixel_grass_tile.png"
     };
-    mcgame::TileSetManager tile_set_manager(tile_set_files, 100, 100, 64);
+    mcgame::TileGridDrawer tile_set_manager(tile_set_files, 100, 100, 64);
     std::default_random_engine random_engine;
     for (int i = 0; i < tile_set_manager.Rows(); ++i) {
         for (int j = 0; j < tile_set_manager.Cols(); ++j) {
@@ -67,7 +66,7 @@ int main() {
     int sparsity_factor = 50;
 
     std::cout << "REEEEEEEE" << std::endl;
-    mcgame::TileSetManager gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
+    mcgame::TileGridDrawer gem_tile_set_manager(gem_tile_set_files, 100, 100, 64);
     for (int i = 0; i < gem_tile_set_manager.Rows(); i++) {
         for (int j = random_engine() % sparsity_factor; j < gem_tile_set_manager.Cols(); j+=random_engine() % sparsity_factor) {
             gem_tile_set_manager.SetTileId(i, j, random_engine() % gem_tile_set_manager.NumTextures());

@@ -3,7 +3,7 @@ project(mcgame)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(mcgame main.cpp include/tile_set_manager.h src/tile_set_manager.cpp include/animated_entity.h include/image_library.h src/image_library.cpp include/resources.h include/screen.h src/screen.cpp)
+add_executable(mcgame main.cpp include/tiles.h src/tiles.cpp include/image_library.h src/image_library.cpp include/drawing.h src/drawing.cpp)
 
 include_directories(mcgame include)
 
