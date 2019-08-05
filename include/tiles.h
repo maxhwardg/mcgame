@@ -37,6 +37,28 @@ namespace mcgame {
 
         void Draw(RenderArea &render_area) const;
     };
+
+    struct Tile {
+        ImageName image;
+        bool walkable;
+    };
+
+    class TileManager {
+    private:
+        int layers;
+        int rows;
+        int cols;
+        std::vector<std::vector<std::vector<Tile>>> layer_tiles;
+        // Uses int instead of vector<bool> since vector<bool> is trash.
+        std::vector<std::vector<int>> tile_walkable;
+        std::vector<TileGridDrawer> layer_drawers;
+    public:
+        TileManager(int layers, int rows, int cols, const Tile& init_tile);
+        bool isWalkable(int row, int col) const;
+        void setTile(int layer, int row, int col, const Tile& tile);
+        Tile getTile(int layer, int row, int col) const;
+        void Draw(RenderArea &render_area) const;
+    };
 }
 
 #endif //MCGAME_TILES_H

@@ -59,5 +59,51 @@ namespace mcgame {
             }
         }
     }
+
+    TileManager::TileManager(int layers, int rows, int cols, const mcgame::Tile &init_tile) : rows(rows), cols(cols) {
+        layer_tiles.assign(layers, std::vector<std::vector<Tile>>(rows, std::vector<Tile>(cols, init_tile)));
+        tile_walkable.assign(rows, std::vector<int>(rows, 0));
+        layer_drawers.assign(layers, TileGridDrawer(rows, cols, init_tile.image));
+    }
+
+    Tile TileManager::getTile(int layer, int row, int col) const {
+        assert(row >= 0 && row < rows);
+        assert(col >= 0 && col < cols);
+        assert(row >= 0 && row < rows);
+        assert(layer >= 0 && layer < layers);
+        return layer_tiles[layer][row][col];
+    }
+
+    void TileManager::setTile(int layer, int row, int col, const Tile& tile) {
+        assert(row >= 0 && row < rows);
+        assert(col >= 0 && col < cols);
+        assert(row >= 0 && row < rows);
+        assert(layer >= 0 && layer < layers);
+        layer_tiles[layer][row][col] = tile;
+        layer_drawers[layer].SetTileImage(row, col, tile.image);
+
+        if (tile_walkable[row][col] != tile.walkable) {
+            bool is_walkable = false;
+            for (int l = 0; l < layers; ++l) {
+                if (layer_tiles[l][row][col].walkable) {
+                    is_walkable = true;
+                    break;
+                }
+            }
+            tile_walkable[row][col] = is_walkable;
+        }
+    }
+
+    bool TileManager::isWalkable(int row, int col) const {
+        assert(row >= 0 && row < rows);
+        assert(col >= 0 && col < cols);
+        return tile_walkable[row][col];
+    }
+
+    void TileManager::Draw(mcgame::RenderArea &render_area) const {
+        for (int l = 0; l < layers; ++l) {
+            layer_drawers[l].Draw(render_area);
+        }
+    }
 }
 
