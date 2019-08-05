@@ -29,7 +29,7 @@ namespace mcgame {
 
         int TileSize() const;
 
-        /// Sets the value of a particular dense tile. Dense tiles are rendered first and have a default value.
+        /// Sets the value of a particular tile.
         void SetTileImage(int row, int col, ImageName image);
 
         /// The tile texture id of a tile in the dense layer.
